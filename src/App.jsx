@@ -8,7 +8,6 @@ import {
   Box,
   Text,
 } from "@chakra-ui/react";
-
 import { useState, useEffect } from "react";
 import Loader from "./components/Loader";
 import fonts from "./fontFamily";
@@ -18,7 +17,7 @@ function App() {
   const [isToggled, setIsToggled] = useState(false);
   const [text, setText] = useState("");
   const [vars, setVars] = useState("400");
-  const [varient, setVarient] = useState(["400", "italic400"]);
+  const [varients, setVarients] = useState(["400", "italic400"]);
   const [selectedFontFamily, setSelectedFontFamily] = useState("ABeeZee");
   const [fontURL, setFontURL] = useState(fonts["ABeeZee"]["400"]);
 
@@ -34,7 +33,7 @@ function App() {
 
     if (savedFontFamily) {
       setSelectedFontFamily(savedFontFamily);
-      setVarient(Object.keys(fonts[savedFontFamily]));
+      setVarients(Object.keys(fonts[savedFontFamily]));
     }
 
     if (savedVars) {
@@ -52,11 +51,12 @@ function App() {
   }, []);
 
   useEffect(() => {
-    //  the selected font family
+    // Update variants when font family changes
     if (fonts[selectedFontFamily]) {
-      setVarient(Object.keys(fonts[selectedFontFamily]));
-      setVars("400");
-      setFontURL(fonts[selectedFontFamily]["400"]);
+      setVarients(Object.keys(fonts[selectedFontFamily]));
+      if (!Object.keys(fonts[selectedFontFamily]).includes(vars)) {
+        setVars("400"); // Default to "400" if current variant is not available
+      }
     }
   }, [selectedFontFamily]);
 
@@ -88,7 +88,7 @@ function App() {
     localStorage.removeItem("isToggled");
     setSelectedFontFamily("ABeeZee");
     setVars("400");
-    setVarient(["400", "italic400"]);
+    setVarients(["400", "italic400"]);
     setText("");
     setIsToggled(false);
     setFontURL(fonts["ABeeZee"]["400"]);
@@ -96,7 +96,9 @@ function App() {
 
   return (
     <Container maxW="container.xl" p={4} centerContent>
-     
+      {loading ? (
+        <Loader />
+      ) : (
         <VStack spacing={8} width="100%">
           <Box width="100%" p={4} boxShadow="md" borderRadius="md" bg="gray.50">
             <HStack spacing={4} justifyContent="space-between">
@@ -123,7 +125,7 @@ function App() {
                   onChange={(e) => setVars(e.target.value)}
                   borderColor="gray.300"
                 >
-                  {varient.map((value) => (
+                  {varients.map((value) => (
                     <option key={value} value={value}>
                       {value}
                     </option>
@@ -150,6 +152,7 @@ function App() {
               style={{
                 fontStyle: isToggled ? "italic" : "normal",
                 fontFamily: selectedFontFamily,
+                fontWeight: vars.includes("italic") ? "italic" : "normal",
               }}
             />
           </Box>
@@ -172,7 +175,7 @@ function App() {
             </Button>
           </HStack>
         </VStack>
-      
+      )}
     </Container>
   );
 }
