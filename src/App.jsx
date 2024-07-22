@@ -20,20 +20,20 @@ function App() {
   const [selectedFontFamily, setSelectedFontFamily] = useState("ABeeZee");
   const [fontURL, setFontURL] = useState(fonts["ABeeZee"]["400"]);
 
-  // Function to toggle the state
+ 
   const handleToggle = () => setIsToggled(!isToggled);
 
   useEffect(() => {
-    // Fetch the variants for the selected font family
+    
     if (fonts[selectedFontFamily]) {
       setVarient(Object.keys(fonts[selectedFontFamily]));
-      setVars("400"); // Reset to a default variant
-      setFontURL(fonts[selectedFontFamily]["400"]); // Set the default font URL
+      setVars("400"); 
+      setFontURL(fonts[selectedFontFamily]["400"]); 
     }
   }, [selectedFontFamily]);
 
   useEffect(() => {
-    // Set the font URL based on the selected font family and variant
+    // Set the font URL
     if (fonts[selectedFontFamily] && fonts[selectedFontFamily][vars]) {
       setFontURL(fonts[selectedFontFamily][vars]);
     }
@@ -110,8 +110,8 @@ function App() {
 
                 <Button
                   onClick={handleToggle}
-                  colorScheme={isToggled ? "green" : "red"} // Change color based on state
-                  variant={isToggled ? "solid" : "outline"} // Change variant based on state
+                  colorScheme={isToggled ? "green" : "red"} 
+                  variant={isToggled ? "solid" : "outline"} 
                 >
                   {isToggled ? "Italic-On" : "Italic-Off"}
                 </Button>
