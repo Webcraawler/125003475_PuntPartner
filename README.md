@@ -1,3 +1,5 @@
+[Website Link](https://zeeshan-texteditor.netlify.app/)
+
 # Text Editor
 
 This project is a Font Selector App built with React and Chakra UI. It allows users to select a font family and variant, apply the selected font to a text area, save preferences, and reset settings to default values.
